@@ -11,6 +11,10 @@ export interface IUserPayload {
 	email: string;
 	username: string;
 	password: string;
-	jwtToken?: string;
 	streamIOToken?: string;
+}
+
+export interface IUserLoginRequest {
+	email: string;
+	password: string;
 }
