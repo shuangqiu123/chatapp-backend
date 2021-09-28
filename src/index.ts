@@ -2,13 +2,16 @@ import express from "express";
 import pino from "pino";
 import expressPino from "express-pino-logger";
 import connect from "./model/index";
+import AuthRouter from "./routes/auth";
 
 const logger = pino({ level: "info" });
 const expressLogger = expressPino({ logger });
 const app = express();
 const port = process.env.PORT;
 
+app.use(express.json());
 app.use(expressLogger);
+app.use("/api/v1/auth", AuthRouter);
 
 connect()
 	.then(() => {
