@@ -14,7 +14,8 @@
 		"prod:start": "node -r dotenv/config . dotenv_config_path=.env.production",
 		"dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
 		"prod": "npm-run-all build prod:start",
-		"start": "node -r dotenv/config . dotenv_config_path=.env.development"
+		"start": "node -r dotenv/config . dotenv_config_path=.env.development",
+		"prepare": "husky install"
 	},
 	"license": "ISC",
 	"devDependencies": {
@@ -25,6 +26,7 @@
 		"@typescript-eslint/eslint-plugin": "^4.31.1",
 		"@typescript-eslint/parser": "^4.31.1",
 		"eslint": "^7.32.0",
+		"husky": "^7.0.2",
 		"install": "^0.13.0",
 		"npm": "^7.23.0",
 		"typescript": "^4.4.3"
