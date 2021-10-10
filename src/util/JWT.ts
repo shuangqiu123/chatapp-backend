@@ -20,7 +20,7 @@ export const verifyJWT = (request: Request, response: Response, next: NextFuncti
 		return;
 	}
 	try {
-		const payload: JwtPayload | string = jwt.verify(token.slice(6), JWT_SECRET);
+		const payload: JwtPayload | string = jwt.verify(token.slice(7), JWT_SECRET);
 		if (typeof payload == "string") {
 			return;
 		}

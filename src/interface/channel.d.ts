@@ -9,6 +9,7 @@ export interface IChannel extends Document {
 }
 
 export interface IChannelPayload {
+	id?: string;
 	name: string;
 	ownerId?: string;
 	type: EChannelType;
@@ -16,6 +17,6 @@ export interface IChannelPayload {
 }
 
 export interface IChannelJoinRequest {
-	name: string;
+	id: string;
 	type: EChannelType;
 }
