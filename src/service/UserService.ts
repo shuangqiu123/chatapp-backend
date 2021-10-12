@@ -1,10 +1,11 @@
 import { comparePassword, encodePassword } from "../util/PasswordEncoder";
 import { IResponse } from "../interface/response";
-import { IUser, IUserLoginRequest, IUserPayload } from "../interface/user";
+import { IUser, IUserLoginRequest, IUserPayload, IUserResponse } from "../interface/user";
 import UserModel from "../model/user";
 import { createToken } from "../util/StreamChat";
+import { generateJWT } from "../util/JWT";
 
-export const loginService = async (data: IUserLoginRequest): Promise<IResponse<IUserPayload>> => {
+export const loginService = async (data: IUserLoginRequest): Promise<IResponse<IUserResponse>> => {
 	const { email, password } = data;
 	let response;
 	await UserModel.findOne({ email })
@@ -26,10 +27,17 @@ export const loginService = async (data: IUserLoginRequest): Promise<IResponse<I
 			response = {
 				code: 200,
 				data: {
-					id: user._id.toString(),
-					email: user.email,
-					username: user.username,
-					streamIOToken: createToken(user._id.toString())
+					auth: {
+						streamIOToken: createToken(user._id.toString()),
+						token: `bearer ${generateJWT(user._id.toString())}`
+					},
+					profile: {
+						id: user._id.toString(),
+						email: user.email,
+						username: user.username,
+						bio: user.bio,
+						photo: user.photo
+					}
 				}
 			};
 		});
@@ -61,10 +69,15 @@ export const signupService = async (data: IUserPayload): Promise<IResponse<IUser
 		response = {
 			code: 200,
 			data: {
-				id: user._id.toString(),
-				email: user.email,
-				username: user.username,
-				streamIOToken: createToken(user._id.toString())
+				auth: {
+					streamIOToken: createToken(user._id.toString()),
+					token: `bearer ${generateJWT(user._id.toString())}`
+				},
+				profile: {
+					id: user._id.toString(),
+					email: user.email,
+					username: user.username
+				}
 			}
 		};
 	});

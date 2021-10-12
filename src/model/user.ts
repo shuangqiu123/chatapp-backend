@@ -21,6 +21,12 @@ const UserSchema: Schema = new Schema({
 		required: true,
 		minlength: 5,
 		maxlength: 100
+	},
+	bio: {
+		type: String
+	},
+	photo: {
+		type: String
 	}
 });
 

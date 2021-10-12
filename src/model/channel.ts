@@ -23,6 +23,12 @@ const ChannelSchema: Schema = new Schema({
 	coordinate: {
 		type: Array,
 		required: true
+	},
+	range: {
+		type: Number
+	},
+	description: {
+		type: String
 	}
 });
 

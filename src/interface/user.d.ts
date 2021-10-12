@@ -4,6 +4,8 @@ export interface IUser extends Document{
 	email: string;
 	username: string;
 	password: string;
+	bio: string;
+	photo: string;
 }
 
 export interface IUserPayload {
@@ -17,4 +19,21 @@ export interface IUserPayload {
 export interface IUserLoginRequest {
 	email: string;
 	password: string;
+}
+
+export interface IUserResponse {
+	auth: Auth;
+	profile: Profile;
+}
+
+export interface Profile {
+	email: string;
+	username: string;
+	bio: string;
+	photo: string;
+}
+
+export interface Auth {
+	streamIOToken: string;
+	token: string;
 }
