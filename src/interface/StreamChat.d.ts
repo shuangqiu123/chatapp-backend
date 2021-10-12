@@ -9,11 +9,12 @@ export type ChatUser = {
 }
 
 export type ChatChannel = {
-	id: string;
-	type: EChannelType;
-	ownerId: string;
-	name: string;
-	coordinate: number[];
+	id?: string;
+	type?: EChannelType;
+	ownerId?: string;
+	name?: string;
+	coordinate?: number[];
+	created_by_id?: string;
 }
 
 export type ChatAttachment = {

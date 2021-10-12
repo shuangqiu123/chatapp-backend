@@ -1,5 +1,6 @@
 export enum EChannelType {
-	GROUP = "group"
+	GROUP = "team",
+	MESSAGE = "messaging"
 }
 
 export enum EAttachmentType {

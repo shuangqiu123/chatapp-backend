@@ -11,7 +11,9 @@ export const createToken = (userId: string): string => {
 };
 
 export const createChannel = async (chatChannel: ChatChannel): Promise<Channel> => {
-	const channel: Channel = serverClient.channel(chatChannel.type, chatChannel.id, chatChannel);
+	const channel: Channel = serverClient.channel(chatChannel.type, chatChannel.id, {
+		created_by_id: chatChannel.ownerId
+	});
 	await channel.create();
 	return channel;
 };
