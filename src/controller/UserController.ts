@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 
 export const uploadUserPhoto = (request: Request, response: Response): void => {
 	const data = request.file;
-	console.log(data);
 
 	if (data) {
 		response.json({
