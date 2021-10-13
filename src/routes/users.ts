@@ -8,6 +8,6 @@ const uploader = multer({
 	storage: new CustomStorageEngine()
 });
 
-router.post("/image", uploader.single("photo"), uploadUserPhoto);
+router.post("/photo", uploader.single("photo"), uploadUserPhoto);
 
 export default router;
