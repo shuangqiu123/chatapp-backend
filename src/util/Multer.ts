@@ -19,7 +19,8 @@ class CustomStorageEngine implements multer.StorageEngine {
 		file.filename = `https://${BUCKET_NAME}.s3.ap-southeast-2.amazonaws.com/${path}`;
 		file.stream.on("data", chunk => {
 			uploadObject(path, chunk)
-				.then(() => {
+				.then((result) => {
+					console.log(result);
 					callback(null, {
 						url: file.filename
 					});
