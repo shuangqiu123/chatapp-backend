@@ -9,19 +9,6 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Create env file
-        run: |
-          touch .env.production
-          echo Stream_CHAT_API_KEY=${{secrets.Stream_CHAT_API_KEY}} >> .env.production
-          echo Stream_CHAT_SECRET=${{ secrets.Stream_CHAT_SECRET }} >> .env.production
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.production
-          echo DATABASE_NAME=${{secrets.DATABASE_NAME}} >> .env.production
-          JWT_SECRET=${{secrets.JWT_SECRET}} >> .env.production
-          echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env.production
-          echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env.production
-          echo BUCKET_NAME=sq-chatapp-prod >> .env.production
-          echo PORT=80 >> .env.production
-          cat .env.production
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -41,4 +28,15 @@ jobs:
         with:
           push: true
           tags: shuangqiu/chatapp:latest
+          secrets: |
+            "github_token=${{ secrets.GITHUB_TOKEN }}"
+            "Stream_CHAT_API_KEY=${{secrets.Stream_CHAT_API_KEY}}"
+            "Stream_CHAT_SECRET=${{ secrets.Stream_CHAT_SECRET }}"
+            "DATABASE_URL=${{ secrets.DATABASE_URL }}"
+            "DATABASE_NAME=${{secrets.DATABASE_NAME}}"
+            "JWT_SECRET=${{secrets.JWT_SECRET}}"
+            "DATABASE_USER=${{ secrets.DATABASE_USER }}"
+            "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}"
+            "BUCKET_NAME=sq-chatapp-prod"
+            "PORT=80"
 
