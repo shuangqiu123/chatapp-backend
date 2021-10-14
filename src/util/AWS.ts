@@ -8,7 +8,8 @@ export const uploadObject = async (path: string, object: Buffer): Promise<PutObj
 	const result: PutObjectCommandOutput = await s3Client.send(new PutObjectCommand({
 		Bucket: BUCKET_NAME,
 		Key: path,
-		Body: object
+		Body: object,
+		ContentDisposition: "attachment"
 	}));
 	return result;
 };
