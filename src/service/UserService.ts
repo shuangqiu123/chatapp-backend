@@ -2,14 +2,14 @@ import { comparePassword, encodePassword } from "../util/PasswordEncoder";
 import { IResponse } from "../interface/response";
 import { IUser, IUserLoginRequest, IUserPayload, IUserResponse, IProfileUpdate, IProfileResponse } from "../interface/user";
 import UserModel from "../model/user";
-import { createToken } from "../util/StreamChat";
+import { connectUser, createToken } from "../util/StreamChat";
 import { generateJWT } from "../util/JWT";
 
 export const loginService = async (data: IUserLoginRequest): Promise<IResponse<IUserResponse>> => {
 	const { email, password } = data;
 	let response;
 	await UserModel.findOne({ email })
-		.then((user: IUser) => {
+		.then( (user: IUser) => {
 			if (!user) {
 				response = {
 					code: 404,
@@ -24,6 +24,7 @@ export const loginService = async (data: IUserLoginRequest): Promise<IResponse<I
 				};
 				return;
 			}
+			
 			response = {
 				code: 200,
 				data: {
@@ -36,7 +37,7 @@ export const loginService = async (data: IUserLoginRequest): Promise<IResponse<I
 						email: user.email,
 						username: user.username,
 						bio: user.bio,
-						photo: user.photo
+						avatar: user.avatar
 					}
 				}
 			};
@@ -45,10 +46,10 @@ export const loginService = async (data: IUserLoginRequest): Promise<IResponse<I
 };
 
 export const signupService = async (data: IUserPayload): Promise<IResponse<IUserPayload>> => {
-	const { username, email, password, bio } = data;
+	const { email, password } = data;
 	let response;
 	await UserModel.findOne({ email })
-		.then((user: IUser) => {
+		.then( (user: IUser) => {
 			if (user) {
 				response = {
 					code: 404,
@@ -61,12 +62,12 @@ export const signupService = async (data: IUserPayload): Promise<IResponse<IUser
 
 	const encodedPassword = encodePassword(password);
 	const user = new UserModel({
-		email,
-		username,
-		bio,
+		email, 
 		password: encodedPassword
 	});
-	await user.save().then((user: IUser) => {
+	 
+	await user.save().then(async (user: IUser) => {
+		await connectUser(user._id.toString());
 		response = {
 			code: 200,
 			data: {
@@ -76,9 +77,7 @@ export const signupService = async (data: IUserPayload): Promise<IResponse<IUser
 				},
 				profile: {
 					id: user._id.toString(),
-					email: user.email,
-					username: user.username,
-					bio: user.bio
+					email: user.email, 
 				}
 			}
 		};

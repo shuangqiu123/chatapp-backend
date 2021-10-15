@@ -3,8 +3,9 @@ import { IChannelPayload, IChannelJoinRequest } from "../interface/channel";
 
 export const validateChannelCreation = (payload: IChannelPayload): ValidationResult => {
 	const schema = Joi.object({
-		name: Joi.string().min(3).max(15).required(),
-		type: Joi.string().min(1).required(),
+		name: Joi.string().min(3).max(25).required(),
+		description: Joi.string().required(),
+		image: Joi.string().required(),
 		coordinate: Joi.array().length(2).items(Joi.number()).required()
 	});
 	return schema.validate(payload);

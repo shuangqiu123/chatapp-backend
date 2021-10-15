@@ -4,7 +4,8 @@ import { EChannelType } from "../common/StreamChat";
 export interface IChannel extends Document {
 	name: string;
 	ownerId: string;
-	type: EChannelType;
+	description: string;
+	image: string;
 	coordinate: number[];
 }
 
@@ -12,7 +13,8 @@ export interface IChannelPayload {
 	id?: string;
 	name: string;
 	ownerId?: string;
-	type: EChannelType;
+	description: string;
+	image: string;
 	coordinate: number[];
 }
 

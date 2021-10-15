@@ -1,18 +1,20 @@
-import { EAttachmentType, EChannelType } from "../common/StreamChat";
+import { EAttachmentType } from "../common/StreamChat";
 
 export type ChatUser = {
 	id: string;
-	name: string;
-	email: string;
-	coordinate: number[];
+	name?: string;
+	email?: string;
+	image?: string;
+	coordinate?: number[];
 	isAdmin: boolean;
 }
 
 export type ChatChannel = {
 	id?: string;
-	type?: EChannelType;
 	ownerId?: string;
 	name?: string;
+	description?: string;
+	image?: string;
 	coordinate?: number[];
 	created_by_id?: string;
 }
