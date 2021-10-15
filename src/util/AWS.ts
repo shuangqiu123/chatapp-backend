@@ -18,7 +18,7 @@ export const uploader = multer({
 			const userId = request.session.userId;
 			const path = userId + "/" + file.originalname;
 			file.filename = `https://${BUCKET_NAME}.s3.ap-southeast-2.amazonaws.com/${path}`;
-			callback(null, file.filename);
+			callback(null, path);
 		}
 	})
 });
