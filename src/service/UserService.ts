@@ -45,7 +45,7 @@ export const loginService = async (data: IUserLoginRequest): Promise<IResponse<I
 };
 
 export const signupService = async (data: IUserPayload): Promise<IResponse<IUserPayload>> => {
-	const { username, email, password } = data;
+	const { username, email, password, bio } = data;
 	let response;
 	await UserModel.findOne({ email })
 		.then((user: IUser) => {
@@ -63,6 +63,7 @@ export const signupService = async (data: IUserPayload): Promise<IResponse<IUser
 	const user = new UserModel({
 		email,
 		username,
+		bio,
 		password: encodedPassword
 	});
 	await user.save().then((user: IUser) => {
@@ -76,7 +77,8 @@ export const signupService = async (data: IUserPayload): Promise<IResponse<IUser
 				profile: {
 					id: user._id.toString(),
 					email: user.email,
-					username: user.username
+					username: user.username,
+					bio: user.bio
 				}
 			}
 		};

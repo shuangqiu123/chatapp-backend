@@ -14,6 +14,7 @@ export interface IUserPayload {
 	username: string;
 	password: string;
 	streamIOToken?: string;
+	bio?: string;
 }
 
 export interface IUserLoginRequest {

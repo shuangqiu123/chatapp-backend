@@ -24,6 +24,7 @@ export const verifyJWT = (request: Request, response: Response, next: NextFuncti
 		if (typeof payload == "string") {
 			return;
 		}
+		request.session.userId = payload._id;
 		response.locals.userId = payload._id;
 		next();
 	} catch (err) {
