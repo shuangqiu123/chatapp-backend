@@ -9,7 +9,7 @@ export const update = (request: Request, response: Response): void => {
 	const responseData = updateService(data, userId);
 	responseData.then(data => {
 		response.json(data);
-  };
+	});
 };
 
 export const uploadUserPhoto = (request: Request, response: Response): void => {
