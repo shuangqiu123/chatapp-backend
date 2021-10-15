@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session";
 import swaggerUi from "swagger-ui-express";
 import swaggerConfig from "./config/swagger.json";
 import pino from "pino";
@@ -13,11 +14,13 @@ const expressLogger = expressPino({ logger });
 const app = express();
 const port = process.env.PORT;
 
+app.use(session({ secret: "keyboard cat" }));
 app.use(express.json());
 app.use(expressLogger);
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/channel", ChannelRouter);
+app.use("/api/v1/user", UserRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 
 connect()
