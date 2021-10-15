@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+const BUCKET_NAME = process.env.BUCKET_NAME;
 
 export const uploadUserPhoto = (request: Request, response: Response): void => {
 	const data = request.file;
@@ -7,7 +8,7 @@ export const uploadUserPhoto = (request: Request, response: Response): void => {
 		response.json({
 			code: 200,
 			data: {
-				url: data.filename
+				url: `https://${BUCKET_NAME}.s3.ap-southeast-2.amazonaws.com/${data.filename}`
 			}
 		});
 		return;
