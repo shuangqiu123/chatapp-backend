@@ -1,5 +1,16 @@
 import { Request, Response } from "express";
+import { IProfileUpdate } from "../interface/user";
+import { updateService } from "../service/UserService";
 const BUCKET_NAME = process.env.BUCKET_NAME;
+
+export const update = (request: Request, response: Response): void => {
+	const data: IProfileUpdate = request.body;
+	const userId = response.locals.userId;
+	const responseData = updateService(data, userId);
+	responseData.then(data => {
+		response.json(data);
+  };
+};
 
 export const uploadUserPhoto = (request: Request, response: Response): void => {
 	const data = request.file;

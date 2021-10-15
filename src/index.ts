@@ -18,6 +18,7 @@ app.use(session({ secret: "keyboard cat" }));
 app.use(express.json());
 app.use(expressLogger);
 app.use("/api/v1/auth", AuthRouter);
+app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/channel", ChannelRouter);
 app.use("/api/v1/user", UserRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerConfig));
