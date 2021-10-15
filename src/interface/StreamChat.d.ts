@@ -1,4 +1,4 @@
-import { EAttachmentType, EChannelType } from "../common/StreamChat";
+import { EAttachmentType } from "../common/StreamChat";
 
 export type ChatUser = {
 	id: string;

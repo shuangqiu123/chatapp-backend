@@ -11,20 +11,18 @@ export const createToken = (userId: string): string => {
 	return serverClient.createToken(userId);
 };
 
-export const connectUser = async (userId: string) =>{
-	await serverClient.connectUser( 
-    { 
-        id: userId, 
-        name: userId,
-				isAdmin: false,
-    }, 
-    createToken(userId), 
-); 
-
-}
+export const connectUser = async (userId: string): Promise<void> =>{
+	await serverClient.connectUser({ 
+		id: userId, 
+		name: userId,
+		isAdmin: false,
+	}, 
+	createToken(userId), 
+	); 
+};
 
 export const createChannel = async (chatChannel: ChatChannel): Promise<Channel> => {
-	const member:string[] = new Array(chatChannel.ownerId)
+	const member:string[] = new Array(chatChannel.ownerId);
 
 	const channel: Channel = serverClient.channel("messaging", chatChannel.id, {
 		members: member,
