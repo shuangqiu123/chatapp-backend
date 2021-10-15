@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { IProfileUpdate } from "../interface/user";
-import { updateService } from "../service/UserService";
+import { updateAvatar, updateService } from "../service/UserService";
 const BUCKET_NAME = process.env.BUCKET_NAME;
 
 export const update = (request: Request, response: Response): void => {
@@ -16,11 +16,11 @@ export const uploadUserPhoto = (request: Request, response: Response): void => {
 	const data = request.file;
 
 	if (data) {
-		response.json({
-			code: 200,
-			data: {
-				url: `https://${BUCKET_NAME}.s3.ap-southeast-2.amazonaws.com/${data.filename}`
-			}
+		const avatarUrl = `https://${BUCKET_NAME}.s3.ap-southeast-2.amazonaws.com/${data.filename}`;
+		const userId = response.locals.userId;
+		const responseData = updateAvatar(avatarUrl, userId);
+		responseData.then(data => {
+			response.json(data);
 		});
 		return;
 	}
