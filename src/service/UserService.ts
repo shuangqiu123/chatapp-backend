@@ -2,7 +2,7 @@ import { comparePassword, encodePassword } from "../util/PasswordEncoder";
 import { IResponse } from "../interface/response";
 import { IUser, IUserLoginRequest, IUserPayload, IUserResponse, IProfileUpdate, IProfileResponse } from "../interface/user";
 import UserModel from "../model/user";
-import { connectUser, createToken } from "../util/StreamChat";
+import { connectUser, createToken, updateUserAvatar } from "../util/StreamChat";
 import { generateJWT } from "../util/JWT";
 
 export const loginService = async (data: IUserLoginRequest): Promise<IResponse<IUserResponse>> => {
@@ -118,3 +118,30 @@ export const updateService = async (data: IProfileUpdate, userId: string): Promi
 		});
 	return response;
 };
+export const updateAvatar = async (avatarUrl: string, userId: string): Promise<IResponse<IProfileResponse>> => {
+	let response;
+	await UserModel.findById(userId)
+		.then( async (user: IUser) => {
+			if (!user) {
+				response = {
+					code: 404,
+					message: "User is not registered"
+				};
+				return;
+			}
+			user.avatar = avatarUrl
+			await updateUserAvatar(avatarUrl, userId)
+			await user.save().then((user: IUser) => {
+				response = {
+					code: 200,
+					data: {
+						profile: {
+							id: user._id.toString(),
+							avatar: user.avatar
+						}
+					}
+				};
+			});
+		});
+	return response;
+}

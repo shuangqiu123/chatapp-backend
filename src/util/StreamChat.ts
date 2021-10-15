@@ -52,3 +52,11 @@ export const publishMessageToChannel = async (chatMessage: ChatMessage, userId: 
 		mentioned_users: [userId]
 	});
 };
+
+export const updateUserAvatar = async (avatarUrl: string, userId: string) =>{
+	await serverClient.upsertUser({  
+    id: userId,
+		isAdmin: false,
+		image:avatarUrl
+ }); 
+}
