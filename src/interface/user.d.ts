@@ -2,17 +2,18 @@ import { Document } from "mongoose";
 
 export interface IUser extends Document{
 	email: string;
-	username: string;
+	username?: string;
 	password: string;
-	bio: string;
-	photo: string;
+	bio?: string;
+	avatar?: string;
 }
 
 export interface IUserPayload {
 	id?: string;
 	email: string;
-	username: string;
+	username?: string;
 	password: string;
+	avatar?: string;
 	streamIOToken?: string;
 	bio?: string;
 }

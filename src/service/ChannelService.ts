@@ -4,10 +4,11 @@ import ChannelModel from "../model/channel";
 import { createChannel, addMembersToChannel } from "../util/StreamChat";
 
 export const createChannelService = async (data: IChannelPayload, ownerId: string): Promise<IResponse<IChannelPayload>> => {
-	const { name, type, coordinate } = data;
+	const { name, description, image, coordinate } = data;
 	let response;
 	const channel = new ChannelModel({
-		type,
+		description,
+		image,
 		ownerId,
 		name,
 		coordinate
@@ -16,9 +17,10 @@ export const createChannelService = async (data: IChannelPayload, ownerId: strin
 	await channel.save().then(async (channel: IChannel) => {
 		const returnChannel = await createChannel({
 			id: channel._id.toString(),
-			type,
 			ownerId,
 			name,
+			description,
+			image,
 			coordinate
 		});
 		response = {
@@ -27,7 +29,6 @@ export const createChannelService = async (data: IChannelPayload, ownerId: strin
 				name,
 				ownerId,
 				id: returnChannel.id,
-				type: returnChannel.type,
 				coordinate
 			}
 		};
@@ -39,7 +40,6 @@ export const createChannelService = async (data: IChannelPayload, ownerId: strin
 export const joinChannelService = async (data: IChannelJoinRequest, userId: string): Promise<IResponse<void>> => {
 	await addMembersToChannel([userId], {
 		id: data.id,
-		type: data.type,
 		ownerId: "",
 		name: "",
 		coordinate: []

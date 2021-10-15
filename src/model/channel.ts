@@ -7,13 +7,7 @@ const ChannelSchema: Schema = new Schema({
 		required: true,
 		minlength: 5,
 		maxlength: 255,
-	},
-	type: {
-		type: String,
-		required: true,
-		minlength: 5,
-		maxlength: 20
-	},
+	}, 
 	ownerId: {
 		type: String,
 		required: true,
