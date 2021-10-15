@@ -110,7 +110,7 @@ export const updateService = async (data: IProfileUpdate, userId: string): Promi
 							email: user.email,
 							username: user.username,
 							bio: user.bio,
-							photo: user.photo
+							avatar: user.avatar
 						}
 					}
 				};
