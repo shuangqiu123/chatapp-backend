@@ -1,6 +1,6 @@
 import { comparePassword, encodePassword } from "../util/PasswordEncoder";
 import { IResponse } from "../interface/response";
-import { IUser, IUserLoginRequest, IUserPayload, IUserResponse } from "../interface/user";
+import { IUser, IUserLoginRequest, IUserPayload, IUserResponse, IProfileUpdate, IProfileResponse } from "../interface/user";
 import UserModel from "../model/user";
 import { createToken } from "../util/StreamChat";
 import { generateJWT } from "../util/JWT";
@@ -81,5 +81,44 @@ export const signupService = async (data: IUserPayload): Promise<IResponse<IUser
 			}
 		};
 	});
+	return response;
+};
+
+export const updateService = async (data: IProfileUpdate, userId: string): Promise<IResponse<IProfileResponse>> => {
+	const { username, bio, password } = data;
+	let response;
+	await UserModel.findById(userId)
+		.then( async (user: IUser) => {
+			if (!user) {
+				response = {
+					code: 404,
+					message: "User is not registered"
+				};
+				return;
+			}
+
+			user.username = username;
+			user.bio = bio;
+
+			if (!password) {
+				const encodedPassword = encodePassword(password);
+				user.password = encodedPassword;
+			}
+
+			await user.save().then((user: IUser) => {
+				response = {
+					code: 200,
+					data: {
+						profile: {
+							id: user._id.toString(),
+							email: user.email,
+							username: user.username,
+							bio: user.bio,
+							photo: user.photo
+						}
+					}
+				};
+			});
+		});
 	return response;
 };

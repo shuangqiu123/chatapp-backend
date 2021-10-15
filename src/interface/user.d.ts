@@ -26,6 +26,16 @@ export interface IUserResponse {
 	profile: Profile;
 }
 
+export interface IProfileUpdate {
+	username: string;
+	bio: string;
+	password:string;
+}
+
+export interface IProfileResponse {
+	profile: Profile;
+}
+
 export interface Profile {
 	email: string;
 	username: string;

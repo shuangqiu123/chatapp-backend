@@ -1,29 +1,11 @@
-// const { User, validate } = require('../models/user');
-// const express = require('express');
-// const router = express.Router();
+import express from "express";
+import { validateUserUpdate } from "../validation/UserValidator";
+import { generalRequestBodyValidator } from "../util/Validation";
+import { update } from "../controller/UserController";
+import { verifyJWT } from "../util/JWT";
 
-// router.post('/', async (req, res) => {
-//     // First Validate The Request
-//     const { error } = validate(req.body);
-//     if (error) {
-//         return res.status(400).send(error.details[0].message);
-//     }
+const router = express.Router();
 
-//     // Check if this user already exisits
-//     let user = await User.findOne({ email: req.body.email });
-//     if (user) {
-//         return res.status(400).send('That user already exisits!');
-//     } else {
-//         // Insert the new user if they do not exist yet
-//         user = new User({
-//             username: req.body.username,
-//             email: req.body.email,
-//             password: req.body.password
-//         });
-//         await user.save();
-//         res.send(user);
-//     }
-// });
-
-// module.exports = router;
+router.post("/update", verifyJWT, generalRequestBodyValidator(validateUserUpdate), update);
  
+export default router;

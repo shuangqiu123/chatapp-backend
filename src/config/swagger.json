@@ -96,6 +96,52 @@
 					}
 				}
 			}
+		},
+		"/user/update": {
+			"post": {
+				"tags": ["Users"],
+				"summary": "User Profile Update",
+				"headers": {
+					"Authorization": {
+						"description": "jwt bearer token",
+						"schema": {
+							"type": "string"
+						}
+					}
+				},
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/definitions/ProfileUpdateRequest"
+						   }
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/ProfileUpdateResponse"
+							   }
+							}
+						}
+					},
+					"404": {
+						"description": "Not registered",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/definitions/ErrorMessage"
+							   }
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"definitions": {
@@ -113,6 +159,14 @@
 					"type": "string"
 				}
 		  	}
+		},
+		"ErrorMessage": {
+			"required": ["message"],
+			"properties": {
+			    "message": {
+				    "type": "string"
+			    }
+			}
 		},
 		"UserLoginRequest": {
 			"required": ["email", "password"],
@@ -159,6 +213,48 @@
 		"UserSignupRequest": {
 			"required": ["email", "username", "password"],
 			"properties": {
+			    "email": {
+				    "type": "string"
+			    },
+			    "username": {
+				  "type": "string"
+			    },
+				"password": {
+					"type": "string"
+				}
+			}
+		},
+		"ProfileUpdateRequest": {
+			"required": ["username", "bio", "password"],
+			"properties": {
+			    "username": {
+				  "type": "string"
+			    },
+				"bio": {
+				    "type": "string"
+			    },
+				"password": {
+					"type": "string"
+				}
+			}
+		},
+		"ProfileUpdateResponse": {
+			"required": ["code", "data"],
+			"properties": {
+				"code": {
+					"type": "integer"
+				},
+				"data": {
+					"$ref": "#/definitions/ProfileUpdateResponsePayload"
+				}
+			}
+		},
+		"ProfileUpdateResponsePayload": {
+			"required": ["email", "id", "username", "password"],
+			"properties": {
+			    "id": {
+				    "type": "string"
+			    },
 			    "email": {
 				    "type": "string"
 			    },

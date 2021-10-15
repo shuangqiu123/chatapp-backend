@@ -6,6 +6,7 @@ import expressPino from "express-pino-logger";
 import connect from "./model/index";
 import AuthRouter from "./routes/auth";
 import ChannelRouter from "./routes/channel";
+import UserRouter from "./routes/users";
 
 const logger = pino({ level: "info" });
 const expressLogger = expressPino({ logger });
@@ -15,6 +16,7 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(expressLogger);
 app.use("/api/v1/auth", AuthRouter);
+app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/channel", ChannelRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 
