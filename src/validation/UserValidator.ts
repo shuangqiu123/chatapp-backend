@@ -21,8 +21,7 @@ export const validateUserLogin = (user: IUserLoginRequest): ValidationResult => 
 export const validateUserUpdate = (user: IProfileUpdate): ValidationResult => {
 	const schema = Joi.object({
 		username: Joi.string().min(5).max(20).required(),
-		bio: Joi.string().required(),
-		password: Joi.string().min(5).max(30)
+		bio: Joi.string().required()
 	});
 	return schema.validate(user);
 };

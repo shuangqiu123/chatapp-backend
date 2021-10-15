@@ -29,7 +29,6 @@ export interface IUserResponse {
 export interface IProfileUpdate {
 	username: string;
 	bio: string;
-	password:string;
 }
 
 export interface IProfileResponse {

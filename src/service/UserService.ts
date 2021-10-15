@@ -85,7 +85,7 @@ export const signupService = async (data: IUserPayload): Promise<IResponse<IUser
 };
 
 export const updateService = async (data: IProfileUpdate, userId: string): Promise<IResponse<IProfileResponse>> => {
-	const { username, bio, password } = data;
+	const { username, bio } = data;
 	let response;
 	await UserModel.findById(userId)
 		.then( async (user: IUser) => {
@@ -99,11 +99,6 @@ export const updateService = async (data: IProfileUpdate, userId: string): Promi
 
 			user.username = username;
 			user.bio = bio;
-
-			if (!password) {
-				const encodedPassword = encodePassword(password);
-				user.password = encodedPassword;
-			}
 
 			await user.save().then((user: IUser) => {
 				response = {
