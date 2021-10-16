@@ -24,7 +24,7 @@ const UserSchema: Schema = new Schema({
 	bio: {
 		type: String
 	},
-	photo: {
+	avatar: {
 		type: String
 	}
 });

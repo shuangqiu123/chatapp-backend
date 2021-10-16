@@ -20,18 +20,17 @@ app.use(expressLogger);
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/channel", ChannelRouter);
-app.use("/api/v1/user", UserRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 
 connect()
 	.then(() => {
 		logger.info("Database has successfully connected");
 	})
-	.catch(error => {
+	.catch((error) => {
 		logger.info("Database has not connected");
 		logger.error(error);
 	});
 
 app.listen(port, () => {
-	logger.info( `server started at http://localhost:${port}`);
+	logger.info(`server started at http://localhost:${port}`);
 });
