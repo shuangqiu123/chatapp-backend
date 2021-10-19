@@ -21,3 +21,14 @@ export interface IChannelJoinRequest {
 	id: string;
 	type: EChannelType;
 }
+
+export interface IFetchNearbyChannel {
+	id: string;
+	range: number;
+	location: number[];
+}
+
+export interface ISortedList {
+	channelId: string;
+	distance: number;
+}
