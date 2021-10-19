@@ -18,28 +18,17 @@ export const createToken = (userId: string): string => {
 	return serverClient.createToken(userId);
 };
 
-export const connectUser = async (userId: string): Promise<void> => {
-	await serverClient.connectUser(
-		{
-			id: userId,
-			name: userId,
-			isAdmin: false,
-		},
-		createToken(userId)
-	);
-};
-
 export const createChannel = async (chatChannel: ChatChannel): Promise<Channel> => {
 	const member: string[] = new Array(chatChannel.ownerId);
 
 	const channel: Channel = serverClient.channel("messaging", chatChannel.id, {
-		members: member,
 		created_by_id: chatChannel.ownerId,
 		name: chatChannel.name,
 		image: chatChannel.image,
 		description: chatChannel.description,
 	});
 	await channel.create();
+	await channel.addMembers(member);
 	return channel;
 };
 
@@ -94,6 +83,12 @@ export const queryChannels = async (
 	return result;
 };
 
+/**
+ * 
+ * @param point1 [longitude, latitude]
+ * @param point2 
+ * @returns distance measured in meter
+ */
 export const calculateDistance = (point1: number[], point2: number[]): number => {
 	const la = point1[0] - point2[0];
 	const lo = point1[1] - point2[1];

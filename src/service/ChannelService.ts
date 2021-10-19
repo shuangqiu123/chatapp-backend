@@ -83,7 +83,7 @@ export const fetchNearbyService = async (
 	const validChannelList: string[] = [];
 	const sortedList: ISortedList[] = [];
 
-	await ChannelModel.find({}).then(async (result: IChannel[]) => {
+	await ChannelModel.find().then(async (result: IChannel[]) => {
 		for (let i = 0; i < result.length; i++) {
 			const distance = calculateDistance(data.location, result[i].coordinate);
 

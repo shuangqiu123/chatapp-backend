@@ -9,7 +9,7 @@ import {
 	IProfileResponse,
 } from "../interface/user";
 import UserModel from "../model/user";
-import { connectUser, createToken, updateUserAvatar } from "../util/StreamChat";
+import { createToken, updateUserAvatar } from "../util/StreamChat";
 import { generateJWT } from "../util/JWT";
 
 export const loginService = async (data: IUserLoginRequest): Promise<IResponse<IUserResponse>> => {
@@ -72,7 +72,6 @@ export const signupService = async (data: IUserPayload): Promise<IResponse<IUser
 	});
 
 	await user.save().then(async (user: IUser) => {
-		await connectUser(user._id.toString());
 		response = {
 			code: 200,
 			data: {
