@@ -13,6 +13,7 @@ export interface IChannelPayload {
 	id?: string;
 	name: string;
 	ownerId?: string;
+	image?: string;
 	description: string;
 	coordinate: number[];
 }

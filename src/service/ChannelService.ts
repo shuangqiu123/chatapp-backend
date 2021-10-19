@@ -11,9 +11,7 @@ import {
 	createChannel,
 	addMembersToChannel,
 	calculateDistance,
-	queryChannels,
 } from "../util/StreamChat";
-import { Channel } from "stream-chat/dist/types/channel";
 
 export const createChannelService = async (
 	data: IChannelPayload,
@@ -53,6 +51,7 @@ export const createChannelService = async (
 				image,
 				id: returnChannel.id,
 				coordinate,
+				description
 			},
 		};
 	});
@@ -78,9 +77,8 @@ export const joinChannelService = async (
 
 export const fetchNearbyService = async (
 	data: IFetchNearbyChannel,
-	userId: string
-): Promise<IResponse<Channel[]>> => {
-	const validChannelList: string[] = [];
+): Promise<IResponse<IChannelPayload[]>> => {
+	const validChannelList: IChannelPayload[] = [];
 	const sortedList: ISortedList[] = [];
 
 	await ChannelModel.find().then(async (result: IChannel[]) => {
@@ -95,27 +93,21 @@ export const fetchNearbyService = async (
 				tempChannelDistance.channelId = result[i]._id.toString();
 				tempChannelDistance.distance = distance;
 				sortedList.push(tempChannelDistance);
-				validChannelList.push(result[i]._id.toString());
+				validChannelList.push({
+					name: result[i].name,
+					ownerId: result[i].ownerId,
+					image: result[i].image,
+					coordinate: result[i].coordinate,
+					id: result[i]._id.toString(),
+					description: result[i].description
+				});
 			}
 		}
 	});
 
-	sortedList.sort((fl, sl) => fl.distance - sl.distance);
-	const streamList = await queryChannels(validChannelList, userId);
-	// TODO: The resultList will the sorted list with raw channel data.
-	// let resultList = [];
-	// console.log(streamList);
-	// for (let x = 0; x < sortedList.length; x++) {
-	// 	for(let y = 0;y<streamList.length; y++){
-	// 		// Not sure whether is called "id" for raw channel data.
-	// 		if(streamList[y].id = sortedList[x].channelId){
-	// 			resultList.push(streamList[y])
-	// 		}
-	// 	}
-	// }
 	const response = {
 		code: 200,
-		data: streamList,
+		data: validChannelList,
 	};
 	return response;
 };
