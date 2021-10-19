@@ -3,13 +3,19 @@ import { IChannel, IChannelPayload, IChannelJoinRequest } from "../interface/cha
 import ChannelModel from "../model/channel";
 import { createChannel, addMembersToChannel } from "../util/StreamChat";
 
-export const createChannelService = async (data: IChannelPayload, ownerId: string): Promise<IResponse<IChannelPayload>> => {
-	const { name, description, image, coordinate } = data;
+export const createChannelService = async (data: IChannelPayload, ownerId: string, image: string): Promise<IResponse<IChannelPayload>> => {
+	const { name, description } = data;
+	let { coordinate } = data;
 	let response;
+
+	if (typeof coordinate === "string") {
+		coordinate = JSON.parse(coordinate);
+	}
+
 	const channel = new ChannelModel({
 		description,
-		image,
 		ownerId,
+		image,
 		name,
 		coordinate
 	});
@@ -28,6 +34,7 @@ export const createChannelService = async (data: IChannelPayload, ownerId: strin
 			data: {
 				name,
 				ownerId,
+				image,
 				id: returnChannel.id,
 				coordinate
 			}

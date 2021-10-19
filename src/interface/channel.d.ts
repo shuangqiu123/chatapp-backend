@@ -14,7 +14,6 @@ export interface IChannelPayload {
 	name: string;
 	ownerId?: string;
 	description: string;
-	image: string;
 	coordinate: number[];
 }
 

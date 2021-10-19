@@ -1,4 +1,5 @@
 import AWS from "aws-sdk";
+import { Request } from "express";
 import multer from "multer";
 import multerS3 from "multer-s3";
 
@@ -14,9 +15,14 @@ export const uploader = multer({
 		metadata: function (request, file, callback) {
 			callback(null, {});
 		},
-		key: function (request, file, callback) {
+		key: function (request: Request, file, callback) {
 			const userId = request.session.userId;
-			file.filename = userId + "/" + file.originalname;
+			if (request.originalUrl.includes("/channel")) {
+				file.filename = "channel/" + userId + "/" + file.originalname;
+			}
+			else {
+				file.filename = userId + "/" + file.originalname;
+			}
 			callback(null, file.filename);
 		}
 	})

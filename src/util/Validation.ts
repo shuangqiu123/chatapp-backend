@@ -7,11 +7,11 @@ export const generalRequestBodyValidator = <T>(validator: (arg: T) => Validation
 	return (request: Request, response: Response, next: NextFunction) => {
 		const data: T = request.body;
 		const result: ValidationResult = validator(data);
-	
+		console.log(data);
 		if (result.error) {
 			const responseBody: IResponse<void> = {
 				code: 404,
-				message: "Validation error"
+				message: "Validation error: " + result.error
 			};
 			response.json(responseBody);
 			return;

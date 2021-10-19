@@ -5,8 +5,7 @@ export const validateChannelCreation = (payload: IChannelPayload): ValidationRes
 	const schema = Joi.object({
 		name: Joi.string().min(3).max(25).required(),
 		description: Joi.string().required(),
-		image: Joi.string().required(),
-		coordinate: Joi.array().length(2).items(Joi.number()).required()
+		coordinate: Joi.string().required()
 	});
 	return schema.validate(payload);
 };
