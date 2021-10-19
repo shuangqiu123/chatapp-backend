@@ -23,6 +23,9 @@ const ChannelSchema: Schema = new Schema({
 	},
 	description: {
 		type: String
+	},
+	image: {
+		type: String
 	}
 });
 
