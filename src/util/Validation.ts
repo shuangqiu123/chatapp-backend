@@ -12,6 +12,7 @@ export const generalRequestBodyValidator = <T>(validator: (arg: T) => Validation
 				code: 404,
 				message: "Validation error: " + result.error
 			};
+			response.statusCode = 404;
 			response.json(responseBody);
 			return;
 		}
@@ -30,6 +31,7 @@ export const generalRequestParamValidator = (validator: (arg: unknown) => Valida
 				code: 404,
 				message: "Validation error"
 			};
+			response.statusCode = 404;
 			response.json(responseBody);
 			return;
 		}

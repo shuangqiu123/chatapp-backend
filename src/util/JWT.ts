@@ -16,6 +16,7 @@ export const verifyJWT = (request: Request, response: Response, next: NextFuncti
 			code: 401,
 			message: "Unauthorised request"
 		};
+		response.statusCode = 401;
 		response.json(responseBody);
 		return;
 	}
@@ -32,6 +33,7 @@ export const verifyJWT = (request: Request, response: Response, next: NextFuncti
 			code: 401,
 			message: "Unauthorised request"
 		};
+		response.statusCode = 401;
 		response.json(responseBody);
 		return;
 	}
