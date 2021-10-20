@@ -1,5 +1,6 @@
 import { Channel, StreamChat } from "stream-chat";
 import { ChatAttachment, ChatChannel, ChatMessage, ChatUser } from "../interface/StreamChat";
+const Distance = require('geo-distance');
 
 const API_KEY = process.env.Stream_CHAT_API_KEY;
 const SECRET = process.env.Stream_CHAT_SECRET;
@@ -86,12 +87,10 @@ export const queryChannels = async (
 /**
  * 
  * @param point1 [longitude, latitude]
- * @param point2 
+ * @param point2 [longitude, latitude]
  * @returns distance measured in meter
  */
-export const calculateDistance = (point1: number[], point2: number[]): number => {
-	const la = point1[0] - point2[0];
-	const lo = point1[1] - point2[1];
-
-	return Math.sqrt(la * la + lo * lo);
+export const calculateDistance = (point1: number[], point2: number[]): typeof Distance => {
+	const distance = Distance.between(point1, point2);
+	return distance
 };
