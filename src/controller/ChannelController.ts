@@ -14,6 +14,7 @@ export const createChannel = (request: Request, response: Response): void => {
 	const imageUrl = `https://${BUCKET_NAME}.s3.ap-southeast-2.amazonaws.com/${request.file.filename}`;
 	const responseData = createChannelService(data, userId, imageUrl);
 	responseData.then((data) => {
+		response.statusCode = data.code;
 		response.json(data);
 	});
 };
@@ -23,6 +24,7 @@ export const joinChannel = (request: Request, response: Response): void => {
 	const userId = response.locals.userId;
 	const responseData = joinChannelService(data, userId);
 	responseData.then((data) => {
+		response.statusCode = data.code;
 		response.json(data);
 	});
 };
@@ -31,6 +33,7 @@ export const fetchNearbyChannel = (request: Request, response: Response): void =
 	const data: IFetchNearbyChannel = request.body;
 	const responseData = fetchNearbyService(data);
 	responseData.then((data) => {
+		response.statusCode = data.code;
 		response.json(data);
 	});
 };
