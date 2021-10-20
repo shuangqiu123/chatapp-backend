@@ -12,6 +12,7 @@ import {
 	addMembersToChannel,
 	calculateDistance,
 } from "../util/StreamChat";
+const Distance = require('geo-distance');
 
 export const createChannelService = async (
 	data: IChannelPayload,
@@ -89,7 +90,7 @@ export const fetchNearbyService = async (
 				channelId: "",
 				distance: 0,
 			};
-			if (data.range >= distance) {
+			if (Distance(data.range + " m") >= distance) {
 				tempChannelDistance.channelId = result[i]._id.toString();
 				tempChannelDistance.distance = distance;
 				sortedList.push(tempChannelDistance);
