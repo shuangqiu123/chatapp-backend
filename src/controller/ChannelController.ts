@@ -29,8 +29,7 @@ export const joinChannel = (request: Request, response: Response): void => {
 
 export const fetchNearbyChannel = (request: Request, response: Response): void => {
 	const data: IFetchNearbyChannel = request.body;
-	const userId = response.locals.userId;
-	const responseData = fetchNearbyService(data, userId);
+	const responseData = fetchNearbyService(data);
 	responseData.then((data) => {
 		response.json(data);
 	});
