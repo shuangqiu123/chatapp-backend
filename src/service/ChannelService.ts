@@ -12,7 +12,8 @@ import {
 	addMembersToChannel,
 	calculateDistance,
 } from "../util/StreamChat";
-const Distance = require('geo-distance');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Distance = require("geo-distance");
 
 export const createChannelService = async (
 	data: IChannelPayload,
