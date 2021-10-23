@@ -41,7 +41,7 @@ export interface Profile {
 	email: string;
 	username: string;
 	bio: string;
-	photo: string;
+	avatar: string;
 }
 
 export interface Auth {
