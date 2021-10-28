@@ -26,6 +26,9 @@ const UserSchema: Schema = new Schema({
 	},
 	avatar: {
 		type: String
+	},
+	joinedChannels: {
+		type: Array
 	}
 });
 

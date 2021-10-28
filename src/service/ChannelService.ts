@@ -12,6 +12,8 @@ import {
 	addMembersToChannel,
 	calculateDistance,
 } from "../util/StreamChat";
+import UserModel from "../model/user";
+import { IUser } from "../interface/user";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Distance = require("geo-distance");
 
@@ -45,6 +47,16 @@ export const createChannelService = async (
 			image,
 			coordinate,
 		});
+
+		UserModel.findById(ownerId)
+			.then((user: IUser) => {
+				if (!user.joinedChannels) {
+					user.joinedChannels = [];
+				}
+				user.joinedChannels.push(channel._id.toString());
+				user.save();
+			});
+
 		response = {
 			code: 200,
 			data: {
@@ -71,7 +83,14 @@ export const joinChannelService = async (
 		name: "",
 		coordinate: [],
 	});
-
+	UserModel.findById(userId)
+		.then((user: IUser) => {
+			if (!user.joinedChannels) {
+				user.joinedChannels = [];
+			}
+			user.joinedChannels.push(data.id);
+			user.save();
+		});
 	return {
 		code: 200,
 	};
@@ -79,32 +98,41 @@ export const joinChannelService = async (
 
 export const fetchNearbyService = async (
 	data: IFetchNearbyChannel,
+	userId: string
 ): Promise<IResponse<IChannelPayload[]>> => {
 	const validChannelList: IChannelPayload[] = [];
 	const sortedList: ISortedList[] = [];
+	await UserModel.findById(userId).then(async (user: IUser) => {
+		const joinedChannels = new Set(user.joinedChannels);
 
-	await ChannelModel.find().then(async (result: IChannel[]) => {
-		for (let i = 0; i < result.length; i++) {
-			const distance = calculateDistance(data.location, result[i].coordinate);
+		await ChannelModel.find().then(async (result: IChannel[]) => {
+			for (let i = 0; i < result.length; i++) {
+				// check if it is in the joined channels
+				if (joinedChannels.has(result[i]._id.toString())) {
+					continue;
+				}
 
-			const tempChannelDistance: ISortedList = {
-				channelId: "",
-				distance: 0,
-			};
-			if (Distance(data.range + " m") >= distance) {
-				tempChannelDistance.channelId = result[i]._id.toString();
-				tempChannelDistance.distance = distance;
-				sortedList.push(tempChannelDistance);
-				validChannelList.push({
-					name: result[i].name,
-					ownerId: result[i].ownerId,
-					image: result[i].image,
-					coordinate: result[i].coordinate,
-					id: result[i]._id.toString(),
-					description: result[i].description
-				});
+				const distance = calculateDistance(data.location, result[i].coordinate);
+	
+				const tempChannelDistance: ISortedList = {
+					channelId: "",
+					distance: 0,
+				};
+				if (Distance(data.range + " m") >= distance) {
+					tempChannelDistance.channelId = result[i]._id.toString();
+					tempChannelDistance.distance = distance;
+					sortedList.push(tempChannelDistance);
+					validChannelList.push({
+						name: result[i].name,
+						ownerId: result[i].ownerId,
+						image: result[i].image,
+						coordinate: result[i].coordinate,
+						id: result[i]._id.toString(),
+						description: result[i].description
+					});
+				}
 			}
-		}
+		});
 	});
 
 	const response = {

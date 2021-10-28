@@ -6,6 +6,7 @@ export interface IUser extends Document{
 	password: string;
 	bio?: string;
 	avatar?: string;
+	joinedChannels?: string[];
 }
 
 export interface IUserPayload {
