@@ -7,11 +7,7 @@ import {
 	ISortedList,
 } from "../interface/channel";
 import ChannelModel from "../model/channel";
-import {
-	createChannel,
-	addMembersToChannel,
-	calculateDistance,
-} from "../util/StreamChat";
+import { createChannel, addMembersToChannel, calculateDistance } from "../util/StreamChat";
 import UserModel from "../model/user";
 import { IUser } from "../interface/user";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -48,14 +44,16 @@ export const createChannelService = async (
 			coordinate,
 		});
 
-		UserModel.findById(ownerId)
-			.then((user: IUser) => {
-				if (!user.joinedChannels) {
-					user.joinedChannels = [];
-				}
-				user.joinedChannels.push(channel._id.toString());
-				user.save();
-			});
+		UserModel.findById(ownerId).then((user: IUser) => {
+			if (!user.joinedChannels) {
+				user.joinedChannels = [];
+			}
+			user.joinedChannels.push(channel._id.toString());
+			if (!user.coordinate) {
+				user.coordinate = coordinate;
+			}
+			user.save();
+		});
 
 		response = {
 			code: 200,
@@ -65,7 +63,7 @@ export const createChannelService = async (
 				image,
 				id: returnChannel.id,
 				coordinate,
-				description
+				description,
 			},
 		};
 	});
@@ -83,14 +81,13 @@ export const joinChannelService = async (
 		name: "",
 		coordinate: [],
 	});
-	UserModel.findById(userId)
-		.then((user: IUser) => {
-			if (!user.joinedChannels) {
-				user.joinedChannels = [];
-			}
-			user.joinedChannels.push(data.id);
-			user.save();
-		});
+	UserModel.findById(userId).then((user: IUser) => {
+		if (!user.joinedChannels) {
+			user.joinedChannels = [];
+		}
+		user.joinedChannels.push(data.id);
+		user.save();
+	});
 	return {
 		code: 200,
 	};
@@ -113,7 +110,7 @@ export const fetchNearbyService = async (
 				}
 
 				const distance = calculateDistance(data.location, result[i].coordinate);
-	
+
 				const tempChannelDistance: ISortedList = {
 					channelId: "",
 					distance: 0,
@@ -128,11 +125,15 @@ export const fetchNearbyService = async (
 						image: result[i].image,
 						coordinate: result[i].coordinate,
 						id: result[i]._id.toString(),
-						description: result[i].description
+						description: result[i].description,
 					});
 				}
 			}
 		});
+		if (!user.coordinate) {
+			user.coordinate = data.location;
+		}
+		user.save();
 	});
 
 	const response = {

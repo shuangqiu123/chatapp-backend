@@ -1,12 +1,13 @@
 import { Document } from "mongoose";
 
-export interface IUser extends Document{
+export interface IUser extends Document {
 	email: string;
 	username?: string;
 	password: string;
 	bio?: string;
 	avatar?: string;
 	joinedChannels?: string[];
+	coordinate?: number[];
 }
 
 export interface IUserPayload {
@@ -34,6 +35,12 @@ export interface IProfileUpdate {
 	bio: string;
 }
 
+export interface IUserGet {
+	users: string[];
+}
+export interface IUserGetResponse {
+	location: number[][];
+}
 export interface IProfileResponse {
 	profile: Profile;
 }

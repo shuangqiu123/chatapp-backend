@@ -7,6 +7,8 @@ import {
 	IUserResponse,
 	IProfileUpdate,
 	IProfileResponse,
+	IUserGet,
+	IUserGetResponse,
 } from "../interface/user";
 import UserModel from "../model/user";
 import { createToken, updateUserAvatar } from "../util/StreamChat";
@@ -84,6 +86,34 @@ export const signupService = async (data: IUserPayload): Promise<IResponse<IUser
 					email: user.email,
 				},
 			},
+		};
+	});
+	return response;
+};
+
+export const getUserService = async (
+	data: IUserGet,
+	userId: string
+): Promise<IResponse<IUserGetResponse>> => {
+	const { users } = data;
+	let response;
+	const location: number[][] = [];
+	await UserModel.find({ _id: { $in: users } }).then(async (users: IUser[]) => {
+		if (!users) {
+			response = {
+				code: 404,
+				message: "User is not registered",
+			};
+			return;
+		}
+		for (let i = 0; i < users.length; i++) {
+			if (!users[i].coordinate) {
+				location.push(users[i].coordinate);
+			}
+		}
+		response = {
+			code: 200,
+			location: location,
 		};
 	});
 	return response;
