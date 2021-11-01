@@ -49,9 +49,7 @@ export const createChannelService = async (
 				user.joinedChannels = [];
 			}
 			user.joinedChannels.push(channel._id.toString());
-			if (!user.coordinate) {
-				user.coordinate = coordinate;
-			}
+			user.coordinate = coordinate;
 			user.save();
 		});
 
