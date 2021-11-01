@@ -128,9 +128,7 @@ export const fetchNearbyService = async (
 				}
 			}
 		});
-		if (!user.coordinate) {
-			user.coordinate = data.location;
-		}
+		user.coordinate = data.location;
 		user.save();
 	});
 
