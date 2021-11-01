@@ -97,7 +97,7 @@ export const getUserService = async (
 ): Promise<IResponse<IUserGetResponse>> => {
 	const { users } = data;
 	let response;
-	const location: number[][] = [];
+	const locations: number[][] = [];
 	await UserModel.find({ _id: { $in: users } }).then(async (users: IUser[]) => {
 		if (!users) {
 			response = {
@@ -107,13 +107,12 @@ export const getUserService = async (
 			return;
 		}
 		for (let i = 0; i < users.length; i++) {
-			if (!users[i].coordinate) {
-				location.push(users[i].coordinate);
-			}
+			locations.push(users[i].coordinate);
 		}
+
 		response = {
 			code: 200,
-			location: location,
+			location: locations,
 		};
 	});
 	return response;

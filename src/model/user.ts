@@ -8,28 +8,31 @@ const UserSchema: Schema = new Schema({
 		minlength: 5,
 		maxlength: 255,
 		unique: true,
-		index: true
+		index: true,
 	},
 	username: {
 		type: String,
 		minlength: 5,
-		maxlength: 20
+		maxlength: 20,
 	},
 	password: {
 		type: String,
 		required: true,
 		minlength: 5,
-		maxlength: 100
+		maxlength: 100,
 	},
 	bio: {
-		type: String
+		type: String,
 	},
 	avatar: {
-		type: String
+		type: String,
 	},
 	joinedChannels: {
-		type: Array
-	}
+		type: Array,
+	},
+	coordinate: {
+		type: Array,
+	},
 });
 
 const UserModel: Model<IUser> = model("User", UserSchema);
