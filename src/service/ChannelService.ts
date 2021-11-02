@@ -79,6 +79,7 @@ export const joinChannelService = async (
 		name: "",
 		coordinate: [],
 	});
+
 	UserModel.findById(userId).then((user: IUser) => {
 		if (!user.joinedChannels) {
 			user.joinedChannels = [];
@@ -86,6 +87,7 @@ export const joinChannelService = async (
 		user.joinedChannels.push(data.id);
 		user.save();
 	});
+
 	return {
 		code: 200,
 	};
@@ -128,9 +130,8 @@ export const fetchNearbyService = async (
 				}
 			}
 		});
-		if (!user.coordinate) {
-			user.coordinate = data.location;
-		}
+
+		user.coordinate = data.location;
 		user.save();
 	});
 
