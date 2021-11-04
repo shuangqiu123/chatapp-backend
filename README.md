@@ -8,7 +8,3 @@ Download the MongoDB 5.0.3 from https://www.mongodb.com/try/download/community. 
 To start the app, firstly run ```npm install```, then ```npm run dev```
 
 To run the app in production, run ```npm run prod```
-
-## API Documentation
-
-Visit http://localhost:3000/api-docs
